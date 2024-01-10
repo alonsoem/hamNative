@@ -5,7 +5,6 @@ import Constants from 'expo-constants';
 import { useEffect, useState ,useRef} from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import {postQSOLA} from './api.js';
-
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
 //const [placeHolder, setPlaceHolder] = useState("Seleccione una opción");
@@ -15,8 +14,6 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import LdaProperties from './ldaProperties.js'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
-
-
 
 import DropdownComponent from './dropdown.js';
 
@@ -286,6 +283,8 @@ export default function LDA({navigation}) {
       
         {showDatePicker &&
         <DateTimePicker 
+          id="date"
+          name="date"
           title={'Elija una fecha'}
           mode="date" 
           value={date} 
@@ -306,6 +305,8 @@ export default function LDA({navigation}) {
         
        {showTimePicker &&
        <DateTimePicker 
+          id="time"
+          name="time"
           title={'Elija una hora'}
           mode="time" 
           value={time} 
@@ -419,7 +420,7 @@ export default function LDA({navigation}) {
       </View>
   
 
-      <View style={styles.footer}>https://github.com/alonsoem/hamNative.git
+      <View style={styles.footer}>
           <View style={styles.threeOfFour}>
               <Button title="ENVIAR QSO" onPress={handleSubmit(onSubmit,onErrors)} color='green'>ENVIAR</Button>
           </View>

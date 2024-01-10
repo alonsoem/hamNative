@@ -103,7 +103,7 @@ export default function Notepad() {
       <View style={styles.body}>
         <TextInput
         multiline
-        numberOfLines={100}
+        numberOfLines={200}
         style={ [{fontSize: textSize}, styles.input]}
         
         onChangeText={newText => handleSaveText(newText)}
@@ -137,15 +137,17 @@ const styles = StyleSheet.create({
     height:'96%',
     marginTop: Constants.statusBarHeight,
     backgroundColor:'#b8c0b1',
+    flex:11.5
   },
   
-  header:{ heigth:'10%',backgroundColor:'white',textAlign:'center',  alignItems: "center"},
-  subHeader:{ heigth:'10%',backgroundColor:'green',textAlign:'center',  alignItems: "center"},
-  body:{flex:9},
-  line2:{backgroundColor:'green',height:'100',flexDirection: 'row', alignItems: 'flex-end' ,flexWrap: 'wrap', display: 'flex', alignItems: 'center' ,padding:10, margin:5},
-  button:{marginLeft:10,width:40},
+  header:{ flex:0.5,heigth:'10%',backgroundColor:'white',textAlign:'center',  alignItems: "center"},
+  subHeader:{ flex:0.5,heigth:'10%',backgroundColor:'green',textAlign:'center',  alignItems: "center"},
+  body:{flex:10},
+  line2:{flex:0.5,backgroundColor:'green',height:'100',flexDirection: 'row', alignItems: 'flex-end' ,flexWrap: 'wrap', display: 'flex', alignItems: 'center' ,padding:10, margin:5},
+  button:{height:'100%',marginLeft:10,width:40},
   buttonN:{width:'50%'},
  input: {
+  flex:100,
   textAlignVertical:'top',
   backgroundColor:'white',
   margin: 5,

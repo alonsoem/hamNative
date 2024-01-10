@@ -9,7 +9,7 @@ export default function Home({ navigation }){
     <View style={styles.container}>
         <WebView
           style={styles.container}
-          source={{ uri: 'http://ham.qrits.com.ar/v2' }}
+          source={{ uri: 'https://ham.qrits.com.ar/v2' }}
         />
         
       </View>
