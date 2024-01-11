@@ -11,13 +11,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function Notepad() {
   const [text, setText] = useState("");
-  const [textSize, setTextSize] = useState(10);
+  const [textSize, setTextSize] = useState(25);
   var timerId=useRef(null);
   
 
 
   useEffect(() => {
-//    _storeData('notepad-data',text);
     _retrieveData('notepad-textSize').then (val => setTextSize((!val?1:Number(val))));
     _retrieveData('notepad-data').then(val => {setText(!val?'':String(val));
     console.log(val);
@@ -109,8 +108,6 @@ export default function Notepad() {
         onChangeText={newText => handleSaveText(newText)}
         value={text}
         placeholder="Indique aqui lo que quiera"
-
-        
       />
       </View>
 
@@ -134,7 +131,6 @@ export default function Notepad() {
 
 const styles = StyleSheet.create({
   container: {
-    height:'96%',
     marginTop: Constants.statusBarHeight,
     backgroundColor:'#b8c0b1',
     flex:11.5

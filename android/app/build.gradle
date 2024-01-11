@@ -98,6 +98,12 @@ android {
             keyAlias 'hamArg'
             keyPassword 'l.1p.2d.3a.4'
         }
+        release {
+            storeFile file('release.keystore')
+            storePassword 'l.1p.2d.3a.4'
+            keyAlias 'hamArg'
+            keyPassword 'l.1p.2d.3a.4'
+        }
     }
     buildTypes {
         debug {
