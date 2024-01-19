@@ -72,9 +72,6 @@ export default function LdaProperties({navigation}) {
 
   return (
     <View style={[styles.container,{flexDirection: 'column'}]}>
-      <View style={styles.header}>
-          <Text>Somos Radioaficionados</Text>
-      </View>
       <View style={styles.subHeader}>
           <Text>Datos Log de Argentina</Text>
       </View>
@@ -88,7 +85,7 @@ export default function LdaProperties({navigation}) {
         
         onChangeText={value => setldaCallsign(value)}
         value={ldaCallsign}
-        
+        placeholder="Tu Indicativo"
          />
         <TextInput
         
@@ -96,7 +93,7 @@ export default function LdaProperties({navigation}) {
         
         onChangeText={value => setldaUser(value)}
         value={ldaUser}
-        placeholder=""
+        placeholder="Usuario de Log de Argentina"
          />
 
         <TextInput
@@ -105,6 +102,7 @@ export default function LdaProperties({navigation}) {
         
         onChangeText={value => setLdaSecret(value)}
         value={ldaSecret}
+        placeholder="Contraseña de Log de Argentina"
         
          />
 
@@ -127,14 +125,13 @@ export default function LdaProperties({navigation}) {
 const styles = StyleSheet.create({
   container: {
     
-    marginTop: Constants.statusBarHeight,
     backgroundColor:'#b8c0b1',
     flex:10.5
   },
   
-  header:{ flex:0.5,backgroundColor:'white',textAlign:'center',  alignItems: "center"},
+  header:{ flex:0.5,backgroundColor:'white',textAlign:'center',  alignItems: "center",justifyContent: 'center'},
   
-  subHeader:{ flex:0.5,backgroundColor:'green',textAlign:'center',  alignItems: "center"},
+  subHeader:{ flex:0.5,backgroundColor:'green',textAlign:'center',  alignItems: "center",justifyContent: 'center'},
   
   body:{flex:9},
   

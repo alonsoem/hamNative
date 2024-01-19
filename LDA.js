@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { WebView } from 'react-native-webview';
-import { StyleSheet ,View,Text,Button,TouchableOpacity,Image,TextInput, Alert} from 'react-native';
+//import { WebView } from 'react-native-webview';
+import { StyleSheet ,View,Text,Button,TouchableOpacity,ScrollView, Image,TextInput, Alert,KeyboardAvoidingView} from 'react-native';
 import Constants from 'expo-constants';
 import { useEffect, useState ,useRef} from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import {postQSOLA} from './api.js';
 import { Dropdown } from 'react-native-element-dropdown';
-import AntDesign from '@expo/vector-icons/AntDesign';
+//import AntDesign from '@expo/vector-icons/AntDesign';
 //const [placeHolder, setPlaceHolder] = useState("Seleccione una opción");
 import { format } from 'date-fns';
 import {NavigationContainer} from '@react-navigation/native';
@@ -15,13 +15,14 @@ import LdaProperties from './ldaProperties.js'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-import DropdownComponent from './dropdown.js';
+//import DropdownComponent from './dropdown.js';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
 
+import { useIsFocused } from "@react-navigation/native";
 
 
-export default function LDA({navigation}) {
+export default function LDA({props,navigation}) {
   const { control, handleSubmit } = useForm();
 
   var dateTime = new Date();
@@ -38,16 +39,26 @@ export default function LDA({navigation}) {
   const [ldaUser, setldaUser] = useState("");
   const [ldaCallsign, setldaCallsign] = useState("");
   const [ldaSecret, setLdaSecret] = useState("");
- 
 
+  const isFocused = useIsFocused();
+ 
   useEffect(() => {
     //    _storeData('notepad-data',text);
-        _retrieveData('lda-user').then (val => setldaUser((!val?"":val)));
-        _retrieveData('lda-callsign').then(val => {setldaCallsign(!val?"":val)});
-        _retrieveData('lda-secret').then(val => {setLdaSecret(!val?'':val)});
+    isFocused && reloadCredentials();
+    
         
-        }, [])
+        }, [isFocused]
+    )
   
+    const reloadCredentials = () =>{
+      _retrieveData('lda-user').then (val => setldaUser((!val?"":val)));
+      _retrieveData('lda-callsign').then(val => {setldaCallsign(!val?"":val)});
+      _retrieveData('lda-secret').then(val => {setLdaSecret(!val?'':val)});
+      console.log("LEIDO");
+  
+    }
+
+
   _retrieveData = async (key) => {
     try {
       const value = await AsyncStorage.getItem(key);
@@ -258,15 +269,14 @@ export default function LDA({navigation}) {
   }
 
   const navToConfig = () =>{
-    navigation.navigate('LdaProperties', {});
+    navigation.navigate('LdaProperties', {onGoBack: () => {reloadCredentials()}});
+    
   }
   
 
   return (
-    <View style={[styles.container,{flexDirection: 'column'}]}>
-      <View style={styles.header}>
-          <Text>Somos Radioaficionados</Text>
-      </View>
+    <View style={[styles.container]}>
+      
       <View style={styles.subHeader}>
           <Text>Log De Argentina</Text>
       </View>
@@ -274,10 +284,15 @@ export default function LDA({navigation}) {
       
       <View style={styles.body}>
 
+      <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.inner}>
+      <ScrollView>
+
       <View style={styles.dateTime}>
 
         
-          <Button title={date.toDateString()}  onPress={viewDatePicker}/>
+          <Button title={format(date,"dd/MM/yyyy").toString()}  onPress={viewDatePicker}/>
          
 
       
@@ -301,7 +316,7 @@ export default function LDA({navigation}) {
 
       <View style={styles.dateTime}>
       
-      <Button title={time.toLocaleTimeString()}  onPress={viewTimePicker}/>
+      <Button title={format(time,"HH:mm").toString()}  onPress={viewTimePicker}/>
         
        {showTimePicker &&
        <DateTimePicker 
@@ -391,9 +406,12 @@ export default function LDA({navigation}) {
         
       </View>
       
+
+      
+      
       <View style={styles.line}>
         <TextInput
-          style={ [{fontSize: 10}, styles.input]}
+          style={ [ styles.input]}
           onChangeText={value => handleChangeRst(value)}
           value={rst}
           placeholder="Señales RST..."
@@ -408,55 +426,62 @@ export default function LDA({navigation}) {
 
       <View style={styles.line}>
         <TextInput
-          style={ [{fontSize: 10}, styles.input]}
+          style={ [ styles.input]}
           onChangeText={value => handleChangeMessage(value)}
           value={message}
           placeholder="un mensaje..."
           
         />
       </View>
+      
 
 
+      </ScrollView>
+      </KeyboardAvoidingView>
+      
+        <View style={styles.footer}>
+            <View style={styles.threeOfFour}>
+                <Button title="ENVIAR QSO" onPress={handleSubmit(onSubmit,onErrors)} color='green' />
+            </View>
+            <View style={styles.oneOfFour}>
+                <Button title="CUENTA" onPress={navToConfig} color='gray' />
+            </View>
+        </View>
+        
       </View>
-  
-
-      <View style={styles.footer}>
-          <View style={styles.threeOfFour}>
-              <Button title="ENVIAR QSO" onPress={handleSubmit(onSubmit,onErrors)} color='green'>ENVIAR</Button>
-          </View>
-          <View style={styles.oneOfFour}>
-              <Button title="CUENTA" onPress={navToConfig} color='gray' />
-          </View>
-      </View>
-
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-      marginTop: Constants.statusBarHeight,
       backgroundColor:'#b8c0b1',
-      flex:11,
+      height:'100%',
+      flexDirection: 'column',
+      flex:1,
   },
-  body:{flex:9},
+  body:{height:'95%'},
 
-  dateTime:{  textAlignVertical:'top',
+  dateTime:{  textAlignVertical:'top',fontSize:16,  padding: 6},
   
+  subHeader:{ flex:1,backgroundColor:'green',textAlign:'center',  alignItems: "center",justifyContent: 'center'},
+
   
-  
-  padding: 6},
-  header:{ flex:0.5,backgroundColor:'white',textAlign:'center',  alignItems: "center"},
-  subHeader:{ flex:0.5,backgroundColor:'green',textAlign:'center',  alignItems: "center"},
-  
-  footer:{flexDirection: 'row' ,flexWrap: 'wrap',  alignItems: 'center' ,padding:2, margin:5, verticalAlign:'bottom'},
+  footer:{flexDirection: 'row' ,flexWrap: 'wrap',  alignItems: 'center' ,padding:2, margin:5},
 
   button:{height:'100%'},
-  threeOfFour:{width:'75%',padding:2,height:'100%',verticalAlign:'bottom'},
+  threeOfFour:{width:'75%',padding:2,height:'100%'},
   oneOfFour:{width:'25%',padding:2,height:'100%'},
 
-  errorStyle:{color:'red'},
-  footerButton:{ 
+  errorStyle:{
+    color:'white',
+    textAlignVertical:'top',
+    backgroundColor:'red',
+    margin: 5,
+    padding: 5,
+    fontSize: 15},
+  
+    footerButton:{ 
       flexDirection: 'row',
       alignItems: 'center',
       backgroundColor: 'white',
@@ -480,6 +505,7 @@ const styles = StyleSheet.create({
   margin: 5,
   borderWidth: 1,
   padding: 10,
+  fontSize: 16
 },
 
 
@@ -509,6 +535,11 @@ const styles = StyleSheet.create({
   inputSearchStyle: {
     height: 40,
     fontSize: 16,
+  },
+  inner: {
+    padding: 0,
+    flex: 1,
+    justifyContent: 'space-around',
   },
 });
 

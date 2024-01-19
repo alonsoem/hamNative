@@ -92,9 +92,7 @@ export default function Notepad() {
 
   return (
     <View style={[styles.container,{flexDirection: 'column'}]}>
-      <View style={styles.header}>
-          <Text>Somos Radioaficionados</Text>
-      </View>
+      
       <View style={styles.subHeader}>
           <Text>NOTAS</Text>
       </View>
@@ -120,7 +118,7 @@ export default function Notepad() {
             <Button title="-" onPress={()=>decrementTextSize()} />
           </View>
           <View style={styles.button}>
-          <Button title="+" onPress={()=>incrementTextSize()} />
+            <Button title="+" onPress={()=>incrementTextSize()} />
           </View>
           </View>
       </View>
@@ -131,19 +129,19 @@ export default function Notepad() {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: Constants.statusBarHeight,
     backgroundColor:'#b8c0b1',
-    flex:11.5
+    //flex:11.5
+    height:'100%',
+    flex:100
   },
   
-  header:{ flex:0.5,heigth:'10%',backgroundColor:'white',textAlign:'center',  alignItems: "center"},
-  subHeader:{ flex:0.5,heigth:'10%',backgroundColor:'green',textAlign:'center',  alignItems: "center"},
-  body:{flex:10},
-  line2:{flex:0.5,backgroundColor:'green',height:'100',flexDirection: 'row', alignItems: 'flex-end' ,flexWrap: 'wrap', display: 'flex', alignItems: 'center' ,padding:10, margin:5},
-  button:{height:'100%',marginLeft:10,width:40},
+  subHeader:{ flex:4,heigth:'10%',backgroundColor:'green',textAlign:'center',  alignItems: "center",justifyContent: 'center'},
+  body:{flex:90},
+  line2:{flex:5,backgroundColor:'green',flexDirection: 'row', alignItems: 'flex-end' ,flexWrap: 'wrap', display: 'flex', alignItems: 'center' ,padding:10, margin:5},
+  button:{height:'100%',padding:0,marginLeft:10,width:40},
   buttonN:{width:'50%'},
  input: {
-  flex:100,
+  
   textAlignVertical:'top',
   backgroundColor:'white',
   margin: 5,
